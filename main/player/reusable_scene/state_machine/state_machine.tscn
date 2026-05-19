@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://bvkwukmp0aha4"]
+
+[ext_resource type="Script" uid="uid://itw1h30epavp" path="res://main/player/reusable_scene/state_machine/state_machine.gd" id="1_4fxjt"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l6plr"]
+animation = &"Armature|Idle neutral"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f8m1i"]
+animation = &"Armature|Jump 1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_boii2"]
+animation = &"Armature|Run 1"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iy4cy"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8xite"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fawi8"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xcylc"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6xqwf"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gkpck"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_r10t4"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_7hvb5"]
+states/Idle/node = SubResource("AnimationNodeAnimation_l6plr")
+states/Idle/position = Vector2(375, 100.375)
+states/Jump/node = SubResource("AnimationNodeAnimation_f8m1i")
+states/Jump/position = Vector2(503.5, 201.5)
+states/Running/node = SubResource("AnimationNodeAnimation_boii2")
+states/Running/position = Vector2(617.5, 100.09375)
+transitions = ["Idle", "Running", SubResource("AnimationNodeStateMachineTransition_iy4cy"), "Running", "Idle", SubResource("AnimationNodeStateMachineTransition_8xite"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_fawi8"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_xcylc"), "Jump", "Running", SubResource("AnimationNodeStateMachineTransition_6xqwf"), "Running", "Jump", SubResource("AnimationNodeStateMachineTransition_gkpck"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_r10t4")]
+graph_offset = Vector2(16.544973, 22.63501)
+
+[node name="StateMachine" type="Node" unique_id=1578503313]
+script = ExtResource("1_4fxjt")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=951333826]
+root_node = NodePath("../..")
+root_motion_track = NodePath("Armature/Skeleton3D:Root")
+tree_root = SubResource("AnimationNodeStateMachine_7hvb5")
+anim_player = NodePath("../../AnimationPlayer")

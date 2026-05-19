@@ -1,0 +1,244 @@
+[gd_scene format=3 uid="uid://ciso71neeygst"]
+
+[ext_resource type="Script" uid="uid://dh8sqoouyxy6d" path="res://main/player/player_foot_rotation/player_foot_rotation.gd" id="1_6flob"]
+[ext_resource type="PackedScene" uid="uid://bpj7g762e5a63" path="res://main/player/reusable_scene/camera/camera_controller.tscn" id="2_v7ejb"]
+[ext_resource type="Script" uid="uid://itw1h30epavp" path="res://main/player/reusable_scene/state_machine/state_machine.gd" id="3_6flob"]
+[ext_resource type="PackedScene" uid="uid://14wqlur5w1wh" path="res://assets/mixamo/Y_Bot.fbx" id="4_lv2ge"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://or2jrqvp1joc" path="res://main/player/reusable_scene/state_machine/animation_tree.tres" id="4_rc71y"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4bbr4"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_rc71y"]
+viewport_path = NodePath("SubViewport")
+
+[node name="PlayerFootRotation" type="CharacterBody3D" unique_id=1077543101 node_paths=PackedStringArray("camera_3d", "visual_for_camera", "state_machine", "visual_for_IK", "ik_leg_left", "ik_leg_right", "ray_leg_left_front", "ray_leg_left_back", "ray_leg_right_front", "ray_leg_right_back", "target_leg_left", "target_leg_right", "copy_left_foot", "copy_right_foot", "copy_rotate_left", "copy_rotate_right", "ray_foot_left_front", "ray_foot_left_back", "ray_foot_right_front", "ray_foot_right_back")]
+script = ExtResource("1_6flob")
+camera_3d = NodePath("CameraController/Camera3D")
+visual_for_camera = NodePath("Visual")
+state_machine = NodePath("StateMachine")
+visual_for_IK = NodePath("Visual")
+ik_leg_left = NodePath("Visual/Armature/Skeleton3D/IKLeg_L")
+ik_leg_right = NodePath("Visual/Armature/Skeleton3D/IKLeg_R")
+ray_leg_left_front = NodePath("Visual/TweakContainer/Leg/Tweak_L/RayFront_L")
+ray_leg_left_back = NodePath("Visual/TweakContainer/Leg/Tweak_L/RayBack_L")
+ray_leg_right_front = NodePath("Visual/TweakContainer/Leg/Tweak_R/RayFront_R")
+ray_leg_right_back = NodePath("Visual/TweakContainer/Leg/Tweak_R/RayBack_R")
+target_leg_left = NodePath("Visual/Armature/Skeleton3D/IKLeg_L/TargetFootLeft")
+target_leg_right = NodePath("Visual/Armature/Skeleton3D/IKLeg_R/TargetFootRight")
+pos_y_height_up = 0.1499999999999999
+pos_y_height_down = 0.15999999999999992
+slope_threshold = 0.01
+copy_left_foot = NodePath("Visual/Armature/Skeleton3D/RotateFoot_L")
+copy_right_foot = NodePath("Visual/Armature/Skeleton3D/RotateFoot_R")
+copy_rotate_left = NodePath("Visual/Armature/Skeleton3D/IKLeg_L/TargetFootLeft")
+copy_rotate_right = NodePath("Visual/Armature/Skeleton3D/IKLeg_R/TargetFootRight")
+ray_foot_left_front = NodePath("Visual/TweakContainer/Leg/Tweak_L/RayFront_L")
+ray_foot_left_back = NodePath("Visual/TweakContainer/Leg/Tweak_L/RayBack_L")
+ray_foot_right_front = NodePath("Visual/TweakContainer/Leg/Tweak_R/RayFront_R")
+ray_foot_right_back = NodePath("Visual/TweakContainer/Leg/Tweak_R/RayBack_R")
+right_foot_rotate_offset = Vector3(-5, 6, 0)
+
+[node name="WorldCollision" type="CollisionShape3D" parent="." unique_id=2012915780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_4bbr4")
+
+[node name="CameraController" parent="." unique_id=796025497 instance=ExtResource("2_v7ejb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="StateMachine" type="Node" parent="." unique_id=1578503313]
+script = ExtResource("3_6flob")
+
+[node name="AnimationTree" type="AnimationTree" parent="StateMachine" unique_id=1295994400]
+root_node = NodePath("../../Visual")
+root_motion_track = NodePath("Armature/Skeleton3D:Root")
+tree_root = ExtResource("4_rc71y")
+anim_player = NodePath("../../Visual/AnimationPlayer")
+
+[node name="Visual" parent="." unique_id=948214335 instance=ExtResource("4_lv2ge")]
+
+[node name="Skeleton3D" parent="Visual/Armature" parent_id_path=PackedInt32Array(948214335, 340967577) index="0" unique_id=1595884967]
+bones/1/position = Vector3(-0.01044293, 0.9676177, 0.00039921413)
+bones/1/rotation = Quaternion(-0.032151937, -0.067608625, -0.037892006, 0.9964736)
+bones/2/rotation = Quaternion(-0.06651062, -0.013009599, 0.03960089, 0.9969147)
+bones/3/rotation = Quaternion(0.01531588, -0.022011558, 0.049585965, 0.99840987)
+bones/4/rotation = Quaternion(0.073159054, -0.01742249, 0.051272158, 0.9958491)
+bones/5/rotation = Quaternion(0.055574544, 0.006019348, -0.028317047, 0.99803483)
+bones/6/rotation = Quaternion(0.037510995, 0.04196641, -0.099975094, 0.9933965)
+bones/9/rotation = Quaternion(-0.49578917, -0.50943303, 0.59382385, -0.37688783)
+bones/10/rotation = Quaternion(0.59750044, 0.21068205, 0.13998567, 0.7609274)
+bones/11/rotation = Quaternion(7.0166385e-07, -5.9034118e-08, 0.11564684, 0.9932904)
+bones/12/rotation = Quaternion(0.032608926, -0.006908428, 0.09863679, 0.99456507)
+bones/13/rotation = Quaternion(0.17165461, -0.048267394, 0.11383756, 0.97736686)
+bones/14/rotation = Quaternion(-0.10950865, -0.033473838, -0.15580718, 0.9811277)
+bones/15/rotation = Quaternion(-0.052219655, -0.04165843, -0.15871648, 0.9850618)
+bones/18/rotation = Quaternion(0.06444942, -0.00042276783, -0.001140076, 0.9979202)
+bones/19/rotation = Quaternion(0.22311048, -1.6097257e-06, -0.02693126, 0.9744211)
+bones/20/rotation = Quaternion(0.14124455, -1.5625061e-07, -0.017045315, 0.989828)
+bones/23/rotation = Quaternion(0.10014208, -9.060808e-06, -0.0119953165, 0.99490094)
+bones/24/rotation = Quaternion(0.24718487, -8.738929e-08, -0.029830256, 0.9685091)
+bones/25/rotation = Quaternion(0.19375241, -4.4865793e-08, -0.023382038, 0.9807718)
+bones/28/rotation = Quaternion(0.13435583, -0.0005555391, -0.012092731, 0.99085927)
+bones/29/rotation = Quaternion(0.33470374, -3.150488e-06, -0.040399965, 0.9414571)
+bones/30/rotation = Quaternion(0.26824442, 1.273627e-07, -0.032371648, 0.9628068)
+bones/33/rotation = Quaternion(0.16857521, 0.0028447479, -0.036503393, 0.98500854)
+bones/34/rotation = Quaternion(0.24479698, 0.0085506, 0.004940069, 0.96952415)
+bones/35/rotation = Quaternion(0.42918888, 9.9332006e-05, -0.05158633, 0.90174043)
+bones/38/rotation = Quaternion(0.55429775, -0.46455917, 0.56508565, 0.39701015)
+bones/39/rotation = Quaternion(0.45192072, -0.16022463, -0.065325364, 0.87511617)
+bones/40/rotation = Quaternion(4.9905477e-08, -2.7454094e-08, -0.09325166, 0.99564254)
+bones/41/rotation = Quaternion(0.02833578, 0.10285917, 0.0038717776, 0.99428475)
+bones/42/rotation = Quaternion(0.19069642, 0.10087402, -0.15499854, 0.964072)
+bones/43/rotation = Quaternion(-0.10225304, -0.04417375, 0.18200324, 0.97696877)
+bones/44/rotation = Quaternion(-0.053208753, 0.037169926, 0.1091542, 0.9919036)
+bones/47/rotation = Quaternion(0.07683858, 0.0002837196, 0.0056487266, 0.9970276)
+bones/48/rotation = Quaternion(0.15034673, 8.7739215e-07, 0.018326286, 0.9884635)
+bones/49/rotation = Quaternion(0.092942744, -5.4505396e-08, 0.011326011, 0.995607)
+bones/52/rotation = Quaternion(0.08978293, 5.9034783e-06, 0.010876463, 0.99590206)
+bones/53/rotation = Quaternion(0.24483068, 1.6033245e-07, 0.029837035, 0.9691067)
+bones/54/rotation = Quaternion(0.07159098, -5.955138e-05, 0.008720318, 0.997396)
+bones/57/rotation = Quaternion(0.14023069, -0.00033836457, 0.019458171, 0.98992765)
+bones/58/rotation = Quaternion(0.27806506, 2.57382e-06, 0.033894904, 0.95996416)
+bones/59/rotation = Quaternion(0.18732871, -5.4362376e-05, 0.022818856, 0.9820323)
+bones/62/rotation = Quaternion(0.15968683, 0.000608402, 0.015683025, 0.98704296)
+bones/63/rotation = Quaternion(0.2445406, 2.8895377e-06, 0.029811624, 0.96918064)
+bones/64/rotation = Quaternion(0.2717167, -2.7523276e-06, 0.033103295, 0.96180785)
+bones/67/rotation = Quaternion(0.14615601, 0.15698767, 0.96947324, -0.11880705)
+bones/68/rotation = Quaternion(-0.16107687, 0.028548038, 0.019998731, 0.9863262)
+bones/69/rotation = Quaternion(0.49986702, -0.029490056, -0.043395307, 0.86451155)
+bones/70/rotation = Quaternion(0.20794925, -0.032559764, -0.015728021, 0.9774711)
+bones/73/rotation = Quaternion(-0.07812886, 0.016884265, 0.99552476, -0.05041267)
+bones/74/rotation = Quaternion(-0.20999107, 0.049368758, 0.006643942, 0.97643346)
+bones/75/rotation = Quaternion(0.6505536, -0.023669861, -0.04773511, 0.7575891)
+bones/76/rotation = Quaternion(0.229091, 0.03211527, 0.015245385, 0.97275573)
+
+[node name="IKLeg_L" type="TwoBoneIK3D" parent="Visual/Armature/Skeleton3D" index="2" unique_id=1055618028]
+setting_count = 1
+settings/0/target_node = NodePath("TargetFootLeft")
+settings/0/pole_node = NodePath("PoleKneeLeft")
+settings/0/root_bone_name = "mixamorig_LeftUpLeg"
+settings/0/root_bone = 67
+settings/0/middle_bone_name = "mixamorig_LeftLeg"
+settings/0/middle_bone = 68
+settings/0/pole_direction = 0
+settings/0/end_bone_name = "mixamorig_LeftFoot"
+settings/0/end_bone = 69
+settings/0/use_virtual_end = false
+settings/0/extend_end_bone = false
+
+[node name="PoleKneeLeft" type="Marker3D" parent="Visual/Armature/Skeleton3D/IKLeg_L" unique_id=1888431993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31497526, -0.022754176, 1.3503449)
+
+[node name="TargetFootLeft" type="Marker3D" parent="Visual/Armature/Skeleton3D/IKLeg_L" unique_id=423903166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22031154, 0.1064161, 0.1806043)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visual/Armature/Skeleton3D/IKLeg_L/TargetFootLeft" unique_id=718975471]
+visible = false
+size = Vector3(0.1, 0.05, 0.3)
+
+[node name="IKLeg_R" type="TwoBoneIK3D" parent="Visual/Armature/Skeleton3D" index="3" unique_id=1598320693]
+setting_count = 1
+settings/0/target_node = NodePath("TargetFootRight")
+settings/0/pole_node = NodePath("PoleKneeRight")
+settings/0/root_bone_name = "mixamorig_RightUpLeg"
+settings/0/root_bone = 73
+settings/0/middle_bone_name = "mixamorig_RightLeg"
+settings/0/middle_bone = 74
+settings/0/pole_direction = 0
+settings/0/end_bone_name = "mixamorig_RightFoot"
+settings/0/end_bone = 75
+settings/0/use_virtual_end = false
+settings/0/extend_end_bone = false
+
+[node name="PoleKneeRight" type="Marker3D" parent="Visual/Armature/Skeleton3D/IKLeg_R" unique_id=68293768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.913, 0.06420193, 2.440621)
+
+[node name="TargetFootRight" type="Marker3D" parent="Visual/Armature/Skeleton3D/IKLeg_R" unique_id=218370223]
+transform = Transform3D(0.91455066, 0, -0.40447143, -3.053674e-08, 1, -6.904665e-08, 0.40447143, 7.5497894e-08, 0.91455066, -0.020814307, 0.10484152, -0.07940086)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Visual/Armature/Skeleton3D/IKLeg_R/TargetFootRight" unique_id=1456306277]
+visible = false
+size = Vector3(0.1, 0.05, 0.3)
+
+[node name="RotateFoot_L" type="CopyTransformModifier3D" parent="Visual/Armature/Skeleton3D" index="4" unique_id=588478205]
+active = false
+setting_count = 1
+settings/0/amount = 1.0
+settings/0/apply_bone_name = "mixamorig_LeftFoot"
+settings/0/apply_bone = 69
+settings/0/reference_type = 1
+settings/0/reference_node = NodePath("../IKLeg_L/TargetFootLeft")
+settings/0/copy = 2
+settings/0/axes = 7
+settings/0/invert = 0
+settings/0/additive = true
+
+[node name="RotateFoot_R" type="CopyTransformModifier3D" parent="Visual/Armature/Skeleton3D" index="5" unique_id=824379626]
+active = false
+setting_count = 1
+settings/0/amount = 1.0
+settings/0/apply_bone_name = "mixamorig_RightFoot"
+settings/0/apply_bone = 75
+settings/0/reference_type = 1
+settings/0/reference_node = NodePath("../IKLeg_R/TargetFootRight")
+settings/0/copy = 2
+settings/0/axes = 7
+settings/0/invert = 0
+settings/0/additive = true
+
+[node name="TweakContainer" type="Node3D" parent="Visual" unique_id=1035022410]
+
+[node name="Leg" type="Node3D" parent="Visual/TweakContainer" unique_id=1759809741]
+
+[node name="Tweak_L" type="Node3D" parent="Visual/TweakContainer/Leg" unique_id=1067361554]
+transform = Transform3D(0.9736547, 0, 0.22802806, 0, 1, 0, -0.22802806, 0, 0.9736547, 0.23, 0, 0.224)
+
+[node name="RayFront_L" type="RayCast3D" parent="Visual/TweakContainer/Leg/Tweak_L" unique_id=1592110276]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_mask = 2
+
+[node name="RayBack_L" type="RayCast3D" parent="Visual/TweakContainer/Leg/Tweak_L" unique_id=1916010883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.08)
+collision_mask = 2
+
+[node name="Tweak_R" type="Node3D" parent="Visual/TweakContainer/Leg" unique_id=1140789071]
+transform = Transform3D(0.9145507, 0, -0.40447128, 0, 1, 0, 0.40447128, 0, 0.9145507, -0.04, 0, -0.041)
+
+[node name="RayFront_R" type="RayCast3D" parent="Visual/TweakContainer/Leg/Tweak_R" unique_id=1584088252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_mask = 2
+
+[node name="RayBack_R" type="RayCast3D" parent="Visual/TweakContainer/Leg/Tweak_R" unique_id=706290724]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.085)
+collision_mask = 2
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1664331192]
+transparent_bg = true
+size = Vector2i(146, 25)
+
+[node name="Control" type="Control" parent="SubViewport" unique_id=167228716]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="SubViewport/Control" unique_id=276108733]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 15
+text = "Player_Leg&Foot"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=676725164]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.993, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_rc71y")
+
+[editable path="CameraController"]
+[editable path="Visual"]

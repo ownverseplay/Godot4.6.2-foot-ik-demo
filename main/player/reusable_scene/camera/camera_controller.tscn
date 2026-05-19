@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bpj7g762e5a63"]
+
+[ext_resource type="Script" uid="uid://dsilfb7ian24n" path="res://main/player/reusable_scene/camera/camera_controller.gd" id="1_8ob6e"]
+
+[node name="CameraController" type="SpringArm3D" unique_id=796025497]
+spring_length = 3.0
+script = ExtResource("1_8ob6e")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=790239236]
+current = true
