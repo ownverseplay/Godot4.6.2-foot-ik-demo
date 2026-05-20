@@ -171,12 +171,12 @@ func handle_foot_rotation(delta: float) -> void:
 		var is_idle_or_ik_forced: bool = is_on_floor() and (ik_is_enabled or !can_player_move)
 
 		if is_idle_or_ik_forced:
-			# 像填表一樣，把左腳的東西丟進去
+			# Calculate left foot rotation based on the average of two raycasts
 			_process_foot_alignment(delta, ray_foot_left_front, ray_foot_left_back, copy_rotate_left, left_foot_rotate_offset)
-			# 把右腳的東西丟進去
+			# Calculate right foot rotation based on the average of two raycasts
 			_process_foot_alignment(delta, ray_foot_right_front, ray_foot_right_back, copy_rotate_right, right_foot_rotate_offset)
 
-			# 更新影響力
+			# Toggle CopyTransformModifier3D influence: 0.0 when running, 1.0 when idle
 			_update_influence(delta, rotation_influence)
 		else:
 			_update_influence(delta, 0.0)
@@ -185,13 +185,12 @@ func handle_foot_rotation(delta: float) -> void:
 		copy_right_foot.active = false
 
 
-# 再提取一個小函數來處理影響力，讓代碼更整潔
 func _update_influence(delta: float, target: float) -> void:
 	copy_left_foot.influence = lerpf(copy_left_foot.influence, target, 15.0 * delta)
 	copy_right_foot.influence = lerpf(copy_right_foot.influence, target, 15.0 * delta)
 
 
-# 這是一個通用的、不分左右的函數
+# Calculating the rotation of Foot (Target node)
 func _process_foot_alignment(delta: float, ray_front: RayCast3D, ray_back: RayCast3D, target_box: Node3D, offset: Vector3) -> void:
 	var is_f_colliding: bool = ray_front.is_colliding()
 	var is_b_colliding: bool = ray_back.is_colliding()
@@ -199,7 +198,7 @@ func _process_foot_alignment(delta: float, ray_front: RayCast3D, ray_back: RayCa
 	if not (is_f_colliding or is_b_colliding):
 		return  # 如果都沒踩到，直接結束
 
-	# --- 1. 計算平均值 (通用邏輯) ---
+	# --- 1. Calculate the average value ---
 	var final_normal: Vector3
 	var final_hit_y: float
 
@@ -213,7 +212,7 @@ func _process_foot_alignment(delta: float, ray_front: RayCast3D, ray_back: RayCa
 		final_normal = ray_back.get_collision_normal().normalized()
 		final_hit_y = ray_back.get_collision_point().y
 
-	# --- 2. 物理變換 (通用邏輯) ---
+	# --- 2. Apply rotation on foot (Target node) ---
 	target_box.global_position.y = lerp(target_box.global_position.y, final_hit_y, delta * 20.0)
 
 	var real_foot_forward: Vector3 = -visual_for_camera.global_transform.basis.z.normalized()
@@ -224,7 +223,7 @@ func _process_foot_alignment(delta: float, ray_front: RayCast3D, ray_back: RayCa
 	var final_forward_z: Vector3 = final_normal.cross(lateral_right_axis).normalized()
 	var target_basis: Basis = Basis(lateral_right_axis, final_normal, final_forward_z).orthonormalized()
 
-	# --- 3. 旋轉與補償 ---
+	# --- 3. Rotation offset for foot due to different rig has different offset ---
 	var target_quat: Quaternion = target_basis.get_rotation_quaternion()
 	var current_quat: Quaternion = target_box.global_transform.basis.orthonormalized().get_rotation_quaternion()
 	var smoothed_quat: Quaternion = current_quat.slerp(target_quat, 15.0 * delta)
