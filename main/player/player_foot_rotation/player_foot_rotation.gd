@@ -196,7 +196,7 @@ func _process_foot_alignment(delta: float, ray_front: RayCast3D, ray_back: RayCa
 	var is_b_colliding: bool = ray_back.is_colliding()
 
 	if not (is_f_colliding or is_b_colliding):
-		return  # 如果都沒踩到，直接結束
+		return  # If RayCast3D touch nothing, return no value
 
 	# --- 1. Calculate the average value ---
 	var final_normal: Vector3
